@@ -12,11 +12,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 public class App {
 
-    public static void main(String[] arg) throws IOException, ExecutionException, InterruptedException, URISyntaxException {
+    public static void main(String[] arg) throws Exception {
         NumberEncoder encoder = getNumberEncoder("dictionary.txt");
 
         List<String> tns;
