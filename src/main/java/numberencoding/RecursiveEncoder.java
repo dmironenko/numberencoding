@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Recursive implementation of encoder. Doesn't require long stack and work pretty fast fo 50 digit tn
+ * Recursive implementation of encoder. Doesn't require long stack and work pretty fast for 50 digit tn
  */
 public class RecursiveEncoder extends NumberEncoder {
 
