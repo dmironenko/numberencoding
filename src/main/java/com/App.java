@@ -3,8 +3,8 @@ package com;
 import com.numberencoding.NumberEncoder;
 import com.numberencoding.RecursiveEncoder;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 
 public class App {
 
-    public static void main(String[] arg) throws IOException, ExecutionException, InterruptedException {
+    public static void main(String[] arg) throws IOException, ExecutionException, InterruptedException, URISyntaxException {
         NumberEncoder encoder = getNumberEncoder("dictionary.txt");
 
         List<String> tns;
@@ -34,7 +34,7 @@ public class App {
                     "04824");
         } else {
             // Assuming args are tns
-            tns = Arrays.asList(arg);
+            tns = Files.readAllLines(Paths.get(arg[0]), Charset.defaultCharset());
         }
 
         List<String> encodeWords;
@@ -52,9 +52,9 @@ public class App {
         encoder.shutDown();
     }
 
-    private static NumberEncoder getNumberEncoder(String dictionaryName) throws IOException {
+    private static NumberEncoder getNumberEncoder(String dictionaryName) throws IOException, URISyntaxException {
         URL url = Objects.requireNonNull(App.class.getClassLoader().getResource(dictionaryName));
-        Path dictPath = Paths.get(new File(url.getFile()).getPath());
+        Path dictPath = Paths.get(url.toURI());
         return new RecursiveEncoder(Files.readAllLines(dictPath, Charset.defaultCharset()));
     }
 }

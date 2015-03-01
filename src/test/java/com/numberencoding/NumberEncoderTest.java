@@ -4,8 +4,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -82,10 +82,10 @@ public class NumberEncoderTest {
         assertTrue(actual.size() > 50000);
     }
 
-    private static NumberEncoder getNumberEncoder(String dictionaryName) throws IOException {
+    private static NumberEncoder getNumberEncoder(String dictionaryName) throws IOException, URISyntaxException {
         URL url = NumberEncoderTest.class.getClassLoader().getResource(dictionaryName);
         assertNotNull(url);
-        Path dictPath = Paths.get(new File(url.getFile()).getPath());
+        Path dictPath = Paths.get(url.toURI());
         return new RecursiveEncoder(Files.readAllLines(dictPath, Charset.defaultCharset()));
     }
 }
