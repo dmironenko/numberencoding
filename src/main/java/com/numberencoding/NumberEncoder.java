@@ -37,6 +37,11 @@ public abstract class NumberEncoder {
     }
 
     /**
+     * Returns for a given phone number all possible encodings by words
+     */
+    protected abstract List<String> encode(String s);
+
+    /**
      * Encodes list of telephone numbers to list of String in next format "tn: encode(tn)"
      */
     public List<String> encode(List<String> tns) {
@@ -54,11 +59,6 @@ public abstract class NumberEncoder {
 
         return result;
     }
-
-    /**
-     * Returns for a given phone number all possible encodings by words
-     */
-    protected abstract List<String> encode(String s);
 
     /**
      * Verifies condition:
@@ -105,6 +105,4 @@ public abstract class NumberEncoder {
 
         return sb.toString();
     }
-
-
 }
