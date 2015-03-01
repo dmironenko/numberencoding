@@ -1,31 +1,5 @@
 Task description
 
-Attention: Please follow these instructions super accurately.
-
- - Develop the solution yourself. Do not try to find a shortcut by
-   using the web.
- - Develop the solution in Java using maven as build tool.
-
- - The core of the solution should be written without any add-ons to
-   the core of the programming language. Use only the defined language
-   standard (e.g. you can use all features that you find in a standard Sun JDK).
-   This means that you can use external libraries, but your program
-   should still produce the wanted solutions after removing those
-   parts. For example, if you would decide to use a logging library
-   then your program would still work correctly after removing all
-   parts that use the logging library. You can also use JUnit.
- - Optimize for speed of development and quality of development. Do
-   not optimize for runtime execution speed. The problem is small and
-   you can afford to waste a few milli seconds. It is better to focus
-   on getting a working solution faster.
- - Deliver your result in the best professional quality you can
-   produce. Polish your solution. Make a master piece out of it.  It
-   is part of this task to compare what different people consider to
-   be a professional quality solution.
-
-First read through the whole of it in order to get an overview.
-Concentrate on the details only upon second reading.
-
 The following mapping from letters to digits is given:
 
 E | J N Q | R W X | D S Y | F T | A M | C I V | B K U | L O P | G H Z
