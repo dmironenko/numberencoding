@@ -72,8 +72,14 @@ public abstract class NumberEncoder {
         Objects.requireNonNull(tns, "tns cannot be null");
 
         List<Future<List<String>>> futures = new LinkedList<>();
-        for (String tn : tns) {
-            futures.add(executor.submit(new SingleTnEncodeCallable(tn)));
+        for (final String tn : tns) {
+            futures.add(executor.submit(new Callable<List<String>>() {
+                @Override
+                public List<String> call() throws Exception {
+                    List<String> encode = encode(normalizeTn(tn));
+                    return toPrintString(encode, tn);
+                }
+            }));
         }
 
         List<String> result = new LinkedList<>();
@@ -151,17 +157,4 @@ public abstract class NumberEncoder {
         executor.shutdown();
     }
 
-    private class SingleTnEncodeCallable implements Callable<List<String>> {
-        private final String tn;
-
-        private SingleTnEncodeCallable(String tn) {
-            this.tn = tn;
-        }
-
-        @Override
-        public List<String> call() {
-            List<String> encode = encode(normalizeTn(tn));
-            return toPrintString(encode, tn);
-        }
-    }
 }
