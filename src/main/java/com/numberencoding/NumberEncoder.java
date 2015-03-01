@@ -60,12 +60,8 @@ public abstract class NumberEncoder {
 
         for (String tn : tns) {
             List<String> encodedWords = encode(normalizeTn(tn));
-
-            for (String word : encodedWords) {
-                result.add(tn + TN_WORD_SEPARATOR + word);
-            }
+            result.addAll(toPrintString(encodedWords, tn));
         }
-
         return result;
     }
 
@@ -136,6 +132,19 @@ public abstract class NumberEncoder {
     }
 
     /**
+     * Prints the phone number followed by a colon, a single(!) space,
+     * and the encoding on one line; trailing spaces are not allowed.
+     */
+    private List<String> toPrintString(List<String> encode, String tn) {
+        List<String> result = new ArrayList<>(encode.size());
+
+        for (String word : encode) {
+            result.add(tn + TN_WORD_SEPARATOR + word);
+        }
+        return result;
+    }
+
+    /**
      * Shutdowns encoder
      */
     public void shutDown() {
@@ -152,14 +161,7 @@ public abstract class NumberEncoder {
         @Override
         public List<String> call() {
             List<String> encode = encode(normalizeTn(tn));
-
-            List<String> result = new ArrayList<>(encode.size());
-
-            for (String word : encode) {
-                result.add(tn + TN_WORD_SEPARATOR + word);
-            }
-
-            return result;
+            return toPrintString(encode, tn);
         }
     }
 }
