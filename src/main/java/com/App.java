@@ -10,7 +10,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -23,15 +22,7 @@ public class App {
         List<String> tns;
 
         if (arg == null || arg.length == 0) {
-            tns = Arrays.asList("04824048240482404824048240482404824048240482404824",
-                    "112",
-                    "5624-82",
-                    "4824",
-                    "0721/608-4067",
-                    "10/783--5",
-                    "1078-913-5",
-                    "381482",
-                    "04824");
+            tns = Files.readAllLines(getPath("tns.txt"), Charset.defaultCharset());
         } else {
             // Assuming args are tns
             tns = Files.readAllLines(Paths.get(arg[0]), Charset.defaultCharset());
@@ -53,8 +44,12 @@ public class App {
     }
 
     private static NumberEncoder getNumberEncoder(String dictionaryName) throws IOException, URISyntaxException {
-        URL url = Objects.requireNonNull(App.class.getClassLoader().getResource(dictionaryName));
-        Path dictPath = Paths.get(url.toURI());
+        Path dictPath = getPath(dictionaryName);
         return new RecursiveEncoder(Files.readAllLines(dictPath, Charset.defaultCharset()));
+    }
+
+    private static Path getPath(String dictionaryName) throws URISyntaxException {
+        URL url = Objects.requireNonNull(App.class.getClassLoader().getResource(dictionaryName));
+        return Paths.get(url.toURI());
     }
 }
