@@ -3,6 +3,7 @@ package com.numberencoding;
 import com.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public class RecursiveEncoder extends NumberEncoder {
 
     @Override
     protected List<String> encode(String tn) {
-        return encode(tn, 0, false, new ArrayList<String>(), new ArrayList<String>());
+        return encode(tn, 0, false, new ArrayList<String>(), new LinkedList<String>());
     }
 
     /**

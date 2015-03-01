@@ -5,7 +5,11 @@ import java.util.Iterator;
 /**
  * Thanks apache commons
  */
-public class StringUtils {
+public final class StringUtils {
+
+    private StringUtils() {
+        throw new AssertionError("Trying to instantiate utility class");
+    }
 
     /**
      * <p>Joins the elements of the provided {@code Iterable} into

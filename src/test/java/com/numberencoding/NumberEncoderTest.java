@@ -1,5 +1,6 @@
 package com.numberencoding;
 
+import org.junit.After;
 import org.junit.Test;
 
 import java.io.File;
@@ -42,18 +43,36 @@ public class NumberEncoderTest {
             "04824: 0 fort",
             "04824: 0 Tor 4");
 
+    private NumberEncoder encoder;
+
+    @After
+    public void shutDown() {
+        if (encoder != null) {
+            encoder.shutDown();
+        }
+    }
+
+
     @Test
     public void sunnyDay() throws IOException {
-        NumberEncoder encoder = getNumberEncoder("dictionary.txt");
+        encoder = getNumberEncoder("dictionary.txt");
 
         List<String> actual = encoder.encode(TNS);
+        assertThat(actual).hasSameSizeAs(EXPECTED).containsOnlyElementsOf(EXPECTED);
+    }
+
+    @Test
+    public void sunnyDayParallel() throws Exception {
+        encoder = getNumberEncoder("dictionary.txt");
+
+        List<String> actual = encoder.encodeParallel(TNS);
         assertThat(actual).hasSameSizeAs(EXPECTED).containsOnlyElementsOf(EXPECTED);
     }
 
     // Just to verify that encoding of 50 digit number with big dictionary takes not bigger than 1 second
     @Test(timeout = 1000)
     public void manyDigits() throws IOException {
-        NumberEncoder encoder = getNumberEncoder("big_dictionary.txt");
+        encoder = getNumberEncoder("big_dictionary.txt");
         List<String> actual = encoder.encode(Arrays.asList("04824048240482404824048240482404824048240482404824"));
         assertTrue(actual.size() > 50000);
     }
@@ -64,7 +83,6 @@ public class NumberEncoderTest {
         Path dictPath = Paths.get(new File(url.getFile()).getPath());
         return new RecursiveEncoder(Files.readAllLines(dictPath, Charset.defaultCharset()));
     }
-
 }
 
 

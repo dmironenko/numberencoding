@@ -4,9 +4,15 @@ import com.util.NumberDecoder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public abstract class NumberEncoder {
 
@@ -14,6 +20,8 @@ public abstract class NumberEncoder {
     static final String TN_WORD_SEPARATOR = ": ";
 
     final Map<String, List<String>> wordsByDecodedWord = new HashMap<>();
+
+    private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     /**
      * Constructor processes dictionary and stores it map next way:
@@ -28,7 +36,7 @@ public abstract class NumberEncoder {
 
             List<String> words = wordsByDecodedWord.get(decodedWord);
             if (words == null) {
-                words = new ArrayList<>();
+                words = new LinkedList<>();
             }
             words.add(word);
 
@@ -37,7 +45,8 @@ public abstract class NumberEncoder {
     }
 
     /**
-     * Returns for a given phone number all possible encodings by words
+     * Returns for a given phone number all possible encodings by words.
+     * This method must be thread safe
      */
     protected abstract List<String> encode(String s);
 
@@ -47,7 +56,7 @@ public abstract class NumberEncoder {
     public List<String> encode(List<String> tns) {
         Objects.requireNonNull(tns, "tns cannot be null");
 
-        List<String> result = new ArrayList<>();
+        List<String> result = new LinkedList<>();
 
         for (String tn : tns) {
             List<String> encodedWords = encode(normalizeTn(tn));
@@ -55,6 +64,26 @@ public abstract class NumberEncoder {
             for (String word : encodedWords) {
                 result.add(tn + TN_WORD_SEPARATOR + word);
             }
+        }
+
+        return result;
+    }
+
+    /**
+     * Encodes list of telephone numbers concurrently. Works best if you have many input tns
+     */
+    public List<String> encodeParallel(List<String> tns) throws ExecutionException, InterruptedException {
+        Objects.requireNonNull(tns, "tns cannot be null");
+
+        List<Future<List<String>>> futures = new LinkedList<>();
+        for (String tn : tns) {
+            futures.add(executor.submit(new SingleTnEncodeCallable(tn)));
+        }
+
+        List<String> result = new LinkedList<>();
+
+        for (Future<List<String>> future : futures) {
+            result.addAll(future.get());
         }
 
         return result;
@@ -104,5 +133,33 @@ public abstract class NumberEncoder {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Shutdowns encoder
+     */
+    public void shutDown() {
+        executor.shutdown();
+    }
+
+    private class SingleTnEncodeCallable implements Callable<List<String>> {
+        private final String tn;
+
+        private SingleTnEncodeCallable(String tn) {
+            this.tn = tn;
+        }
+
+        @Override
+        public List<String> call() {
+            List<String> encode = encode(normalizeTn(tn));
+
+            List<String> result = new ArrayList<>(encode.size());
+
+            for (String word : encode) {
+                result.add(tn + TN_WORD_SEPARATOR + word);
+            }
+
+            return result;
+        }
     }
 }

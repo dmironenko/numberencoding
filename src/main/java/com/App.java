@@ -13,10 +13,11 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class App {
 
-    public static void main(String[] arg) throws IOException {
+    public static void main(String[] arg) throws IOException, ExecutionException, InterruptedException {
         NumberEncoder encoder = getNumberEncoder("big_dictionary.txt");
 
         List<String> tns;
@@ -36,11 +37,19 @@ public class App {
             tns = Arrays.asList(arg);
         }
 
-        List<String> encodeWords = encoder.encode(tns);
+        List<String> encodeWords;
+
+        if (tns.size() == 1) {
+            encodeWords = encoder.encode(tns);
+        } else {
+            encodeWords = encoder.encodeParallel(tns);
+        }
 
         for (String encodedWord : encodeWords) {
             System.out.println(encodedWord);
         }
+
+        encoder.shutDown();
     }
 
     private static NumberEncoder getNumberEncoder(String dictionaryName) throws IOException {
