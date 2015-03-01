@@ -18,6 +18,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class NumberEncoderTest {
+
+    public static final String DICTIONARY_TXT = "dictionary.txt";
+    public static final String BIG_DICTIONARY_TXT = "big_dictionary.txt";
+
     private static final List<String> TNS = Arrays.asList(
             "112",
             "5624-82",
@@ -54,7 +58,7 @@ public class NumberEncoderTest {
 
     @Test
     public void sunnyDay() throws IOException {
-        encoder = getNumberEncoder("dictionary.txt");
+        encoder = getNumberEncoder(DICTIONARY_TXT);
 
         List<String> actual = encoder.encode(TNS);
         assertThat(actual).hasSameSizeAs(EXPECTED).containsOnlyElementsOf(EXPECTED);
@@ -62,7 +66,7 @@ public class NumberEncoderTest {
 
     @Test
     public void sunnyDayParallel() throws Exception {
-        encoder = getNumberEncoder("dictionary.txt");
+        encoder = getNumberEncoder(DICTIONARY_TXT);
 
         List<String> actual = encoder.encodeParallel(TNS);
         assertThat(actual).hasSameSizeAs(EXPECTED).containsOnlyElementsOf(EXPECTED);
@@ -71,7 +75,7 @@ public class NumberEncoderTest {
     // Just to verify that encoding of 50 digit number with big dictionary takes not bigger than 1 second
     @Test(timeout = 1000)
     public void manyDigits() throws IOException {
-        encoder = getNumberEncoder("big_dictionary.txt");
+        encoder = getNumberEncoder(BIG_DICTIONARY_TXT);
         List<String> actual = encoder.encode(Arrays.asList("04824048240482404824048240482404824048240482404824"));
         assertTrue(actual.size() > 50000);
     }
