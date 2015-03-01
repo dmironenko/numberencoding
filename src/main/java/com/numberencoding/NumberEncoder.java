@@ -66,7 +66,7 @@ public abstract class NumberEncoder {
     }
 
     /**
-     * Encodes list of telephone numbers concurrently. Works best if you have many input tns
+     * Encodes list of telephone numbers concurrently. Works best if you have many tns
      */
     public List<String> encodeParallel(List<String> tns) throws ExecutionException, InterruptedException {
         Objects.requireNonNull(tns, "tns cannot be null");
