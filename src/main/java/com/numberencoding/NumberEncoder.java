@@ -21,7 +21,7 @@ public abstract class NumberEncoder {
 
     final Map<String, List<String>> wordsByTn = new HashMap<>();
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private final ExecutorService executor = Executors.newFixedThreadPool(Math.max(Runtime.getRuntime().availableProcessors(), 4));
 
     /**
      * Constructor processes dictionary and stores it map next way:
