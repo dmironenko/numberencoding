@@ -1,0 +1,65 @@
+package numberencoding;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Recursive implementation of encoder. Doesn't require long stack and work pretty fast fo 50 digit tn
+ */
+public class RecursiveEncoder extends NumberEncoder {
+
+    public RecursiveEncoder(List<String> dictionary) {
+        super(dictionary);
+    }
+
+    @Override
+    protected List<String> encode(String tn) {
+        return encode(tn, 0, false, new ArrayList<String>(), new ArrayList<String>());
+    }
+
+    /**
+     * Recursively searches for all possible word + digit combinations
+     * Algorithm :
+     * For each substring of tn starting from first digit to whole tn
+     * 1. search for its encoding in dictionary :
+     * 1.1 if found add to currentEncode and recursively search for encoding for the rest of tn
+     * 1.2 if not check if we can add it as digit if yes - add it to currentEncode, recursively search for encoding for the rest of tn
+     * <p/>
+     * 2. Encoding is found only in case we were able do encode whole tn
+     */
+    private List<String> encode(String tn, int startIndex, boolean lastWasDigit, List<String> currentEncode, List<String> result) {
+        // Whole phone number string encoded -> store result
+        if (startIndex == tn.length()) {
+            result.add(StringUtils.join(currentEncode, WORD_SEPARATOR));
+            return result;
+        }
+
+        for (int i = startIndex + 1; i <= tn.length(); i++) {
+            String subTn = tn.substring(startIndex, i);
+
+            List<String> words = wordsByDecodedWord.get(subTn);
+            if (words != null) {
+                for (String word : words) {
+                    // Store copy of current match so we don't brake currentEncode in case further encoding was not found with this word
+                    List<String> currentCopy = new ArrayList<>(currentEncode);
+                    currentCopy.add(word);
+
+                    encode(tn, i, false, currentCopy, result);
+                }
+            } else {
+                // Word was not found - try to insert digit
+                if (!lastWasDigit && subTn.length() == 1 && isDigitInsertAllowed(startIndex, tn)) {
+                    String digit = tn.substring(startIndex, startIndex + 1);
+
+                    List<String> currentCopy = new ArrayList<>(currentEncode);
+                    currentCopy.add(digit);
+
+                    encode(tn, startIndex + 1, true, currentCopy, result);
+                }
+            }
+        }
+        return result;
+    }
+}
