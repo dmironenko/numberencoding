@@ -1,6 +1,7 @@
 package com.numberencoding;
 
-import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -47,27 +48,29 @@ public class NumberEncoderTest {
             "04824: 0 fort",
             "04824: 0 Tor 4");
 
-    private NumberEncoder encoder;
+    private static NumberEncoder encoder;
+    private static NumberEncoder bigDictionaryEncoder;
 
-    @After
-    public void shutDown() {
-        if (encoder != null) {
-            encoder.shutDown();
-        }
+    @BeforeClass
+    public static void setUp() throws Exception {
+        encoder = getNumberEncoder(DICTIONARY_TXT);
+        bigDictionaryEncoder = getNumberEncoder(BIG_DICTIONARY_TXT);
+    }
+
+    @AfterClass
+    public static void shutDown() {
+        encoder.shutDown();
+        bigDictionaryEncoder.shutDown();
     }
 
     @Test
     public void sunnyDay() throws IOException {
-        encoder = getNumberEncoder(DICTIONARY_TXT);
-
         List<String> actual = encoder.encode(TNS);
         assertThat(actual).hasSameSizeAs(EXPECTED).containsOnlyElementsOf(EXPECTED);
     }
 
     @Test
     public void sunnyDayParallel() throws Exception {
-        encoder = getNumberEncoder(DICTIONARY_TXT);
-
         List<String> actual = encoder.encodeParallel(TNS);
         assertThat(actual).hasSameSizeAs(EXPECTED).containsOnlyElementsOf(EXPECTED);
     }
@@ -75,13 +78,12 @@ public class NumberEncoderTest {
     // Just to verify that encoding of 50 digit number with big dictionary takes not bigger than 1 second
     @Test(timeout = 1000)
     public void manyDigits() throws IOException {
-        encoder = getNumberEncoder(BIG_DICTIONARY_TXT);
-        List<String> actual = encoder.encode(Arrays.asList("04824048240482404824048240482404824048240482404824"));
+        List<String> actual = bigDictionaryEncoder.encode(Arrays.asList("04824048240482404824048240482404824048240482404824"));
         assertTrue(actual.size() > 50000);
     }
 
-    private NumberEncoder getNumberEncoder(String dictionaryName) throws IOException {
-        URL url = getClass().getClassLoader().getResource(dictionaryName);
+    private static NumberEncoder getNumberEncoder(String dictionaryName) throws IOException {
+        URL url = NumberEncoderTest.class.getClassLoader().getResource(dictionaryName);
         assertNotNull(url);
         Path dictPath = Paths.get(new File(url.getFile()).getPath());
         return new RecursiveEncoder(Files.readAllLines(dictPath, Charset.defaultCharset()));
