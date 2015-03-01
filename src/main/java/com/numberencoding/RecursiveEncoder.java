@@ -44,20 +44,20 @@ public class RecursiveEncoder extends NumberEncoder {
             if (words != null) {
                 for (String word : words) {
                     // Store copy of current match so we don't brake currentEncode in case further encoding was not found with this word
-                    List<String> currentCopy = new ArrayList<>(currentEncode);
-                    currentCopy.add(word);
+                    List<String> copy = new ArrayList<>(currentEncode);
+                    copy.add(word);
 
-                    encode(tn, i, false, currentCopy, result);
+                    encode(tn, i, false, copy, result);
                 }
             } else {
                 // Word was not found - try to insert digit
                 if (!lastWasDigit && subTn.length() == 1 && isDigitInsertAllowed(startIndex, tn)) {
                     String digit = tn.substring(startIndex, startIndex + 1);
 
-                    List<String> currentCopy = new ArrayList<>(currentEncode);
-                    currentCopy.add(digit);
+                    List<String> copy = new ArrayList<>(currentEncode);
+                    copy.add(digit);
 
-                    encode(tn, startIndex + 1, true, currentCopy, result);
+                    encode(tn, startIndex + 1, true, copy, result);
                 }
             }
         }

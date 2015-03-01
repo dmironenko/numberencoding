@@ -52,7 +52,6 @@ public class NumberEncoderTest {
         }
     }
 
-
     @Test
     public void sunnyDay() throws IOException {
         encoder = getNumberEncoder("dictionary.txt");
