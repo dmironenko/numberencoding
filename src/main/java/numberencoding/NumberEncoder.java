@@ -4,6 +4,7 @@ import util.NumberDecoder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -105,5 +106,41 @@ public abstract class NumberEncoder {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Thanks apache commons
+     */
+    public static String join(List<String> list, String separator) {
+        Iterator<String> iterator = list.iterator();
+
+        // handle null, zero and one elements before building a buffer
+        if (iterator == null) {
+            return null;
+        }
+        if (!iterator.hasNext()) {
+            return "";
+        }
+        String first = iterator.next();
+        if (!iterator.hasNext()) {
+            return first;
+        }
+
+        // two or more elements
+        StringBuilder buf = new StringBuilder(256); // Java default is 16, probably too small
+        if (first != null) {
+            buf.append(first);
+        }
+
+        while (iterator.hasNext()) {
+            if (separator != null) {
+                buf.append(separator);
+            }
+            String obj = iterator.next();
+            if (obj != null) {
+                buf.append(obj);
+            }
+        }
+        return buf.toString();
     }
 }

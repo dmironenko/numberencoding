@@ -50,7 +50,7 @@ public class NumberEncoderTest {
         assertThat(actual).hasSameSizeAs(EXPECTED).containsOnlyElementsOf(EXPECTED);
     }
 
-    // Just to verify that encoding of 50 numbers with big dictionary takes not much than 1 seconds
+    // Just to verify that encoding of 50 digit number with big dictionary takes not bigger than 1 second
     @Test(timeout = 1000)
     public void manyDigits() throws IOException {
         NumberEncoder encoder = getNumberEncoder("big_dictionary.txt");
