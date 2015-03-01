@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 public class App {
 
     public static void main(String[] arg) throws IOException, ExecutionException, InterruptedException {
-        NumberEncoder encoder = getNumberEncoder("big_dictionary.txt");
+        NumberEncoder encoder = getNumberEncoder("dictionary.txt");
 
         List<String> tns;
 

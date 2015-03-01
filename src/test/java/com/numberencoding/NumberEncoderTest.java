@@ -20,8 +20,8 @@ import static org.junit.Assert.assertTrue;
 
 public class NumberEncoderTest {
 
-    public static final String DICTIONARY_TXT = "dictionary.txt";
-    public static final String BIG_DICTIONARY_TXT = "big_dictionary.txt";
+    public static final String SMALL_DICTIONARY_TXT = "small_dictionary.txt";
+    public static final String BIG_DICTIONARY_TXT = "dictionary.txt";
 
     private static final List<String> TNS = Arrays.asList(
             "112",
@@ -48,30 +48,30 @@ public class NumberEncoderTest {
             "04824: 0 fort",
             "04824: 0 Tor 4");
 
-    private static NumberEncoder encoder;
+    private static NumberEncoder smallDictionaryEncoder;
     private static NumberEncoder bigDictionaryEncoder;
 
     @BeforeClass
     public static void setUp() throws Exception {
-        encoder = getNumberEncoder(DICTIONARY_TXT);
+        smallDictionaryEncoder = getNumberEncoder(SMALL_DICTIONARY_TXT);
         bigDictionaryEncoder = getNumberEncoder(BIG_DICTIONARY_TXT);
     }
 
     @AfterClass
     public static void shutDown() {
-        encoder.shutDown();
+        smallDictionaryEncoder.shutDown();
         bigDictionaryEncoder.shutDown();
     }
 
     @Test
     public void sunnyDay() throws IOException {
-        List<String> actual = encoder.encode(TNS);
+        List<String> actual = smallDictionaryEncoder.encode(TNS);
         assertThat(actual).hasSameSizeAs(EXPECTED).containsOnlyElementsOf(EXPECTED);
     }
 
     @Test
     public void sunnyDayParallel() throws Exception {
-        List<String> actual = encoder.encodeParallel(TNS);
+        List<String> actual = smallDictionaryEncoder.encodeParallel(TNS);
         assertThat(actual).hasSameSizeAs(EXPECTED).containsOnlyElementsOf(EXPECTED);
     }
 
