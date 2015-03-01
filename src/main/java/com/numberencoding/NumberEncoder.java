@@ -12,7 +12,7 @@ import java.util.Objects;
 public abstract class NumberEncoder {
 
     static final String WORD_SEPARATOR = " ";
-    private static final String TN_WORD_SEPARATOR = ": ";
+    static final String TN_WORD_SEPARATOR = ": ";
 
     final Map<String, List<String>> wordsByDecodedWord = new HashMap<>();
 
@@ -40,7 +40,6 @@ public abstract class NumberEncoder {
     /**
      * Encodes list of telephone numbers to list of String in next format "tn: encode(tn)"
      */
-
     public List<String> encode(List<String> tns) {
         Objects.requireNonNull(tns, "tns cannot be null");
 
