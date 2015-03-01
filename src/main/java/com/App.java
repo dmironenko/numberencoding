@@ -24,7 +24,7 @@ public class App {
         if (arg == null || arg.length == 0) {
             tns = Files.readAllLines(getPath("tns.txt"), Charset.defaultCharset());
         } else {
-            // Assuming args are tns
+            // Assuming args[0] contains path to file with tns
             tns = Files.readAllLines(Paths.get(arg[0]), Charset.defaultCharset());
         }
 
