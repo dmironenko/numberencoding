@@ -19,7 +19,7 @@ public abstract class NumberEncoder {
     static final String WORD_SEPARATOR = " ";
     static final String TN_WORD_SEPARATOR = ": ";
 
-    final Map<String, List<String>> wordsByDecodedWord = new HashMap<>();
+    final Map<String, List<String>> wordsByTn = new HashMap<>();
 
     private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
@@ -34,13 +34,13 @@ public abstract class NumberEncoder {
         for (String word : dictionary) {
             String decodedWord = NumberDecoder.decode(normalizeWord(word));
 
-            List<String> words = wordsByDecodedWord.get(decodedWord);
+            List<String> words = wordsByTn.get(decodedWord);
             if (words == null) {
                 words = new LinkedList<>();
             }
             words.add(word);
 
-            wordsByDecodedWord.put(decodedWord, words);
+            wordsByTn.put(decodedWord, words);
         }
     }
 
@@ -97,7 +97,7 @@ public abstract class NumberEncoder {
      */
     boolean isDigitInsertAllowed(int startIndex, String tn) {
         for (int i = startIndex + 1; i < tn.length(); i++) {
-            if (wordsByDecodedWord.containsKey(tn.substring(startIndex, i)))
+            if (wordsByTn.containsKey(tn.substring(startIndex, i)))
                 return false;
         }
         return true;

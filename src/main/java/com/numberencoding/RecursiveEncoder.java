@@ -40,7 +40,7 @@ public class RecursiveEncoder extends NumberEncoder {
         for (int i = startIndex + 1; i <= tn.length(); i++) {
             String subTn = tn.substring(startIndex, i);
 
-            List<String> words = wordsByDecodedWord.get(subTn);
+            List<String> words = wordsByTn.get(subTn);
             if (words != null) {
                 for (String word : words) {
                     // Proceed with copy (not currentEncode) so we don't break it if further encoding will not be found with this word
