@@ -12,11 +12,11 @@ import java.util.Objects;
 
 public class App {
 
-    public  static void main(String [] arg) throws IOException{
+    public static void main(String[] arg) throws IOException {
         NumberEncoder encoder = getNumberEncoder("big_dictionary.txt");
         List<String> encodeWords = encoder.encode("04824048240482404824048240482404824048240482404824");
 
-        for(String encodedWord : encodeWords) {
+        for (String encodedWord : encodeWords) {
             System.out.println(encodedWord);
         }
     }
