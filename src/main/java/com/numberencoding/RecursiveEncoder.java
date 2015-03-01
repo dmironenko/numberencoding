@@ -1,5 +1,7 @@
 package com.numberencoding;
 
+import com.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class RecursiveEncoder extends NumberEncoder {
     private List<String> encode(String tn, int startIndex, boolean lastWasDigit, List<String> currentEncode, List<String> result) {
         // Whole phone number string encoded -> store result
         if (startIndex == tn.length()) {
-            result.add(join(currentEncode, WORD_SEPARATOR));
+            result.add(StringUtils.join(currentEncode, WORD_SEPARATOR));
             return result;
         }
 
