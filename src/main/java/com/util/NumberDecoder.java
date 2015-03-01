@@ -1,4 +1,4 @@
-package util;
+package com.util;
 
 /**
  * Utility class fo decoding words

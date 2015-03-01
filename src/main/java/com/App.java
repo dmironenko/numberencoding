@@ -1,4 +1,7 @@
-package numberencoding;
+package com;
+
+import com.numberencoding.NumberEncoder;
+import com.numberencoding.RecursiveEncoder;
 
 import java.io.File;
 import java.io.IOException;

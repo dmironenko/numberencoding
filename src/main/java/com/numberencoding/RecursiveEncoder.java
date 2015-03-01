@@ -1,4 +1,4 @@
-package numberencoding;
+package com.numberencoding;
 
 import java.util.ArrayList;
 import java.util.List;

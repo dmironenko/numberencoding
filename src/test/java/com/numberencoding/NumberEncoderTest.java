@@ -1,4 +1,4 @@
-package numberencoding;
+package com.numberencoding;
 
 import org.junit.Test;
 

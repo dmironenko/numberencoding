@@ -1,6 +1,6 @@
-package numberencoding;
+package com.numberencoding;
 
-import util.NumberDecoder;
+import com.util.NumberDecoder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +58,7 @@ public abstract class NumberEncoder {
     }
 
     /**
-     * Returns for a given phone number, all possible encodings by words
+     * Returns for a given phone number all possible encodings by words
      */
     protected abstract List<String> encode(String s);
 
@@ -111,9 +111,11 @@ public abstract class NumberEncoder {
     /**
      * Thanks apache commons
      */
-    public static String join(List<String> list, String separator) {
-        Iterator<String> iterator = list.iterator();
+    public static String join(List<?> list, String separator) {
+        return join(list.iterator(), separator);
+    }
 
+    public static String join(Iterator<?> iterator, String separator) {
         // handle null, zero and one elements before building a buffer
         if (iterator == null) {
             return null;
@@ -121,9 +123,9 @@ public abstract class NumberEncoder {
         if (!iterator.hasNext()) {
             return "";
         }
-        String first = iterator.next();
+        Object first = iterator.next();
         if (!iterator.hasNext()) {
-            return first;
+            return String.valueOf(first);
         }
 
         // two or more elements
@@ -136,7 +138,7 @@ public abstract class NumberEncoder {
             if (separator != null) {
                 buf.append(separator);
             }
-            String obj = iterator.next();
+            Object obj = iterator.next();
             if (obj != null) {
                 buf.append(obj);
             }
