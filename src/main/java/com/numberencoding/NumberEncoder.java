@@ -53,7 +53,7 @@ public abstract class NumberEncoder {
     /**
      * Encodes list of telephone numbers to list of String in next format "tn: encode(tn)"
      */
-    public List<String> encode(List<String> tns) {
+    public final List<String> encode(List<String> tns) {
         Objects.requireNonNull(tns, "tns cannot be null");
 
         List<String> result = new LinkedList<>();
@@ -68,7 +68,7 @@ public abstract class NumberEncoder {
     /**
      * Encodes list of telephone numbers concurrently. Works best if you have many tns
      */
-    public List<String> encodeParallel(List<String> tns) throws ExecutionException, InterruptedException {
+    public final List<String> encodeParallel(List<String> tns) throws ExecutionException, InterruptedException {
         Objects.requireNonNull(tns, "tns cannot be null");
 
         List<Future<List<String>>> futures = new LinkedList<>();
