@@ -22,24 +22,25 @@ public class App {
      * arg[0] - full path to file with dictionary.
      * arg[1] - full path to file with tns.
      * Example of usage :
-     * java -jar numberencoding-1.0-SNAPSHOT.jar /srv/dictionary.txt /srv/tns.txt
+     * java -jar numberencoding-1.0.jar /srv/dictionary.txt /srv/tns.txt
      */
     public static void main(String[] arg) throws Exception {
-        // Executor with at least two threads
+
 
         if (arg.length != 2) {
-            System.out.println("Invalid arguments: ");
+            System.out.println("Please specify valid arguments: ");
             System.out.println("arg[0] - full path to file with dictionary");
             System.out.println("arg[1] - full path to file with tns");
             return;
         }
 
         Path dictionary = requireExistingPath(arg[0]);
-        final NumberEncoder encoder = getNumberEncoder(dictionary);
-
         Path tn = requireExistingPath(arg[1]);
 
+        // Executor with at least two threads
         ExecutorService executor = Executors.newFixedThreadPool(Math.max(2, Runtime.getRuntime().availableProcessors()));
+
+        final NumberEncoder encoder = getNumberEncoder(dictionary);
 
         // Due to "number of entries in the phone number file: unlimited" read only line by line and now whole file to memory
         try (BufferedReader reader = Files.newBufferedReader(tn, Charset.defaultCharset())) {
