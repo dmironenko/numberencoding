@@ -3,6 +3,7 @@ package com.numberencoding;
 import com.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,8 +17,14 @@ public class RecursiveEncoder extends NumberEncoder {
     }
 
     @Override
-    protected List<String> encode(String tn) {
-        return encode(tn, 0, false, new ArrayList<String>(), new LinkedList<String>());
+    public List<String> encode(String tn) {
+        // Just return empty list if tn is invalid
+        String normalizedTn = normalizeTn(tn);
+        if (normalizedTn == null || normalizedTn.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return encode(tn, normalizedTn, 0, false, new ArrayList<String>(), new LinkedList<String>());
     }
 
     /**
@@ -30,15 +37,16 @@ public class RecursiveEncoder extends NumberEncoder {
      * <p/>
      * 2. Encoding is found only in case we were able do encode whole tn
      */
-    private List<String> encode(String tn, int startIndex, boolean lastWasDigit, List<String> currentEncode, List<String> result) {
+    private List<String> encode(String tn, String normalizedTn, int startIndex, boolean lastWasDigit, List<String> currentEncode, List<String> result) {
         // Whole phone number string encoded -> store result
-        if (startIndex == tn.length()) {
-            result.add(StringUtils.join(currentEncode, WORD_SEPARATOR));
+        if (startIndex == normalizedTn.length()) {
+            String word = StringUtils.join(currentEncode, WORD_SEPARATOR);
+            result.add(toPrintString(word, tn));
             return result;
         }
 
-        for (int i = startIndex + 1; i <= tn.length(); i++) {
-            String subTn = tn.substring(startIndex, i);
+        for (int i = startIndex + 1; i <= normalizedTn.length(); i++) {
+            String subTn = normalizedTn.substring(startIndex, i);
 
             List<String> words = wordsByTn.get(subTn);
             if (words != null) {
@@ -47,17 +55,17 @@ public class RecursiveEncoder extends NumberEncoder {
                     List<String> copy = new ArrayList<>(currentEncode);
                     copy.add(word);
 
-                    encode(tn, i, false, copy, result);
+                    encode(tn, normalizedTn, i, false, copy, result);
                 }
             } else {
                 // Word was not found - try to insert digit
-                if (!lastWasDigit && subTn.length() == 1 && isDigitInsertAllowed(startIndex, tn)) {
-                    String digit = tn.substring(startIndex, startIndex + 1);
+                if (!lastWasDigit && subTn.length() == 1 && isDigitInsertAllowed(startIndex, normalizedTn)) {
+                    String digit = normalizedTn.substring(startIndex, startIndex + 1);
 
                     List<String> copy = new ArrayList<>(currentEncode);
                     copy.add(digit);
 
-                    encode(tn, startIndex + 1, true, copy, result);
+                    encode(tn, normalizedTn, startIndex + 1, true, copy, result);
                 }
             }
         }

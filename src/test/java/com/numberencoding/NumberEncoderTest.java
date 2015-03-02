@@ -1,6 +1,5 @@
 package com.numberencoding;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -12,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,28 +57,25 @@ public class NumberEncoderTest {
         bigDictionaryEncoder = getNumberEncoder(BIG_DICTIONARY_TXT);
     }
 
-    @AfterClass
-    public static void shutDown() {
-        smallDictionaryEncoder.shutDown();
-        bigDictionaryEncoder.shutDown();
-    }
-
     @Test
     public void sunnyDay() throws IOException {
-        List<String> actual = smallDictionaryEncoder.encode(TNS);
+        List<String> actual = new LinkedList<>();
+        for (String tn : TNS) {
+            actual.addAll(smallDictionaryEncoder.encode(tn));
+        }
         assertThat(actual).hasSameSizeAs(EXPECTED).containsOnlyElementsOf(EXPECTED);
     }
 
     @Test
-    public void sunnyDayParallel() throws Exception {
-        List<String> actual = smallDictionaryEncoder.encodeParallel(TNS);
-        assertThat(actual).hasSameSizeAs(EXPECTED).containsOnlyElementsOf(EXPECTED);
+    public void encodedNotTnShouldReturnEmptyList() {
+        List<String> actual = smallDictionaryEncoder.encode("Hello");
+        assertThat(actual).isEmpty();
     }
 
     // Just to verify that encoding of 50 digit number with big dictionary takes less than 1 second
     @Test(timeout = 1000)
     public void manyDigits() throws IOException {
-        List<String> actual = bigDictionaryEncoder.encode(Arrays.asList("04824048240482404824048240482404824048240482404824"));
+        List<String> actual = bigDictionaryEncoder.encode("04824048240482404824048240482404824048240482404824");
         assertTrue(actual.size() > 50000);
     }
 
