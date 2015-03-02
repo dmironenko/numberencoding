@@ -7,8 +7,8 @@ Downloading project:
 git clone https://github.com/dmironenko/numberencoding.git
 
 Building project:
-cd numberencoding
-mvn clean install
+ - cd numberencoding
+ - mvn clean install
 Application is assembled to jar with manifest using maven jar plugin
 
 Running project:
