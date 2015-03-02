@@ -20,8 +20,8 @@ import static org.junit.Assert.assertTrue;
 
 public class NumberEncoderTest {
 
-    public static final String SMALL_DICTIONARY_TXT = "small_dictionary.txt";
-    public static final String BIG_DICTIONARY_TXT = "dictionary.txt";
+    private static final String SMALL_DICTIONARY_TXT = "small_dictionary.txt";
+    private static final String BIG_DICTIONARY_TXT = "dictionary.txt";
 
     private static final List<String> TNS = Arrays.asList(
             "112",

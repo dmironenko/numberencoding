@@ -76,7 +76,7 @@ public abstract class NumberEncoder {
      * @param tn tn to normalize
      * @return normalized tn
      */
-    protected String normalizeTn(String tn) {
+    String normalizeTn(String tn) {
         StringBuilder sb = new StringBuilder();
 
         for (char c : tn.toCharArray()) {
@@ -92,7 +92,7 @@ public abstract class NumberEncoder {
      * Prints the phone number followed by a colon, a single(!) space,
      * and the encoding on one line; trailing spaces are not allowed.
      */
-    protected String toPrintString(String word, String tn) {
+    String toPrintString(String word, String tn) {
         return tn + TN_WORD_SEPARATOR + word;
     }
 }

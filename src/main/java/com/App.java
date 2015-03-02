@@ -6,7 +6,6 @@ import com.numberencoding.RecursiveEncoder;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -68,7 +67,7 @@ public class App {
     /**
      * Returns number encoder by dictionary path
      */
-    private static NumberEncoder getNumberEncoder(Path dictPath) throws IOException, URISyntaxException {
+    private static NumberEncoder getNumberEncoder(Path dictPath) throws IOException {
         return new RecursiveEncoder(Files.readAllLines(dictPath, Charset.defaultCharset()));
     }
 
