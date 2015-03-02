@@ -25,8 +25,6 @@ public class App {
      * java -jar numberencoding-1.0.jar /srv/dictionary.txt /srv/tns.txt
      */
     public static void main(String[] arg) throws Exception {
-
-
         if (arg.length != 2) {
             System.out.println("Please specify valid arguments: ");
             System.out.println("arg[0] - full path to file with dictionary");

@@ -37,7 +37,7 @@ public abstract class NumberEncoder {
     }
 
     /**
-     * Encodes list of telephone numbers to list of String in next format "tn: encode(tn)"
+     * Encodes telephone number to list of its possible word in next format "tn: encode(tn)"
      * This method must be thread safe
      */
     public abstract List<String> encode(String s);

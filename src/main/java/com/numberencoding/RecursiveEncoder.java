@@ -40,8 +40,8 @@ public class RecursiveEncoder extends NumberEncoder {
     private List<String> encode(String tn, String normalizedTn, int startIndex, boolean lastWasDigit, List<String> currentEncode, List<String> result) {
         // Whole phone number string encoded -> store result
         if (startIndex == normalizedTn.length()) {
-            String word = StringUtils.join(currentEncode, WORD_SEPARATOR);
-            result.add(toPrintString(word, tn));
+            String words = StringUtils.join(currentEncode, WORD_SEPARATOR);
+            result.add(toPrintString(words, tn));
             return result;
         }
 
