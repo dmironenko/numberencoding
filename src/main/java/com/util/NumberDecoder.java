@@ -28,6 +28,11 @@ public final class NumberDecoder {
         return sb.toString();
     }
 
+    /**
+     * Decodes single character
+     * @param c character to decode
+     * @return decoded character
+     */
     private static int decode(char c) {
         switch (c) {
             case 'E':

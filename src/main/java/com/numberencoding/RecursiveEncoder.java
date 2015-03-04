@@ -20,7 +20,7 @@ public class RecursiveEncoder extends NumberEncoder {
     public List<String> encode(String tn) {
         // Just return empty list if tn is invalid
         String normalizedTn = normalizeTn(tn);
-        if (normalizedTn == null || normalizedTn.isEmpty()) {
+        if (StringUtils.isEmpty(normalizedTn)) {
             return Collections.emptyList();
         }
 

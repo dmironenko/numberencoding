@@ -12,6 +12,13 @@ public final class StringUtils {
     }
 
     /**
+     * <p>Checks if a String is empty ("") or null.</p>
+     */
+    public static boolean isEmpty(String str) {
+        return str == null || str.length() == 0;
+    }
+
+    /**
      * <p>Joins the elements of the provided {@code Iterable} into
      * a single String containing the provided elements.</p>
      */

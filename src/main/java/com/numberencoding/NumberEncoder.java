@@ -1,6 +1,7 @@
 package com.numberencoding;
 
 import com.util.NumberDecoder;
+import com.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -26,13 +27,14 @@ public abstract class NumberEncoder {
         for (String word : dictionary) {
             String decodedWord = NumberDecoder.decode(normalizeWord(word));
 
-            List<String> words = wordsByTn.get(decodedWord);
-            if (words == null) {
-                words = new LinkedList<>();
+            if(!StringUtils.isEmpty(decodedWord)) {
+                List<String> words = wordsByTn.get(decodedWord);
+                if (words == null) {
+                    words = new LinkedList<>();
+                    wordsByTn.put(decodedWord, words);
+                }
+                words.add(word);
             }
-            words.add(word);
-
-            wordsByTn.put(decodedWord, words);
         }
     }
 
